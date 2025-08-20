@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeri Foto Bersama</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background: url('https://raw.githubusercontent.com/NdikzDatabase/Database/main/Database/1755705434497-ny6sbh.jpg  ') no-repeat center center fixed;
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #D3D3D3, #e0e0e0, #a9a9a9, #000, #000, #fff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+        
+        .header p {
+            font-size: 1.5rem;
+            color: #fff;
+            font-weight: bolder;
+        }
+        
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .gallery-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.5s ease;
+            height: 250px;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .gallery-item .overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-item:hover .overlay {
+            transform: translateY(0);
+        }
+        
+        .overlay h3 {
+            font-size: 1.7rem;
+            margin-bottom: 5px;
+            color: #fff;
+        }
+        
+        .overlay p {
+            color: #fff;
+            font-size: 0.9rem;
+        }
+        
+        .neon-border {
+            position: relative;
+        }
+        
+        .neon-border::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #ff0080, #00ff88, #00bfff, #ff0080);
+            border-radius: 15px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            filter: blur(5px);
+        }
+        
+        .gallery-item:hover .neon-border::before {
+            opacity: 0.8;
+            animation: neon-rotate 3s linear infinite;
+        }
+        
+        @keyframes neon-rotate {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            font-size: 1.3rem;
+            color: #fff;
+            font-weight: bolder;
+        }
+        
+        .heart {
+            color: #ff4458;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+        
+        .modal-content img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+        
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close:hover {
+            color: #ff4458;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Galeri Foto Bersama</h1>
+            <p>Setiap Foto Yang Sangat Cantik/Ganteng <span class="heart">❤️</span></p>
+        </div>
+        
+        <div class="gallery">
+            <div class="gallery-item neon-border">
+                <img src="https://iili.io/F6AS2fe.jpg" alt="Foto1">
+                <div class="overlay">
+                    <h3>Senyuman kamu yang manis</h3>
+                    <p>setiap Senyuman Kamu Bikin Hari Kubahagia</p>
+                </div>
+            </div>
+            
+            <div class="gallery-item neon-border">
+                <img src="https://files.catbox.moe/utztxn.jpg" alt="Pantai">
+                <div class="overlay">
+                    <h3>Foto Anomali Pahri</h3>
+                    <p>foto darkweb yang kesebar</p>
+                </div>
+            </div>
+            
+            <div class="gallery-item neon-border">
+                <img src="https://files.catbox.moe/wm8rrc.jpg" alt="Hutan">
+                <div class="overlay">
+                    <h3>pose cantik</h3>
+                    <p>pose pacara cantikku🤍💞</p>
+                </div>
+            </div>
+            
+            <div class="gallery-item neon-border">
+                <img src="https://files.catbox.moe/lsouju.jpg" alt="Danau">
+                <div class="overlay">
+                    <h3>Pose kang ngarit</h3>
+                    <p>Foto asli orang ngarit</p>
+                </div>
+            </div>
+            
+            <div class="gallery-item neon-border">
+                <img src="https://files.catbox.moe/qym8vr.jpg" alt="Bukit">
+                <div class="overlay">
+                    <h3>pacar kesayangan pahri</h3>
+                    <p>foto bubub aku yang cantik🤍💞😘</p>
+                </div>
+            </div>
+            
+            <div class="gallery-item neon-border">
+                <img src="https://files.catbox.moe/asztsz.jpeg" alt="Air Terjun">
+                <div class="overlay">
+                    <h3>kang tambel ban pose</h3>
+                    <p>Selamat telah menemukan foto kang tambel ban</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Dibuat dengan <span class="heart">❤️</span> untuk pacar tersayang</p>
+            <p>Setiap senyuman terasa indah</p>
+        </div>
+    </div>
+    
+    <div id="imageModal" class="modal">
+        <span class="close">&times;</span>
+        <div class="modal-content">
+            <img id="modalImage" src="" alt="Gambar Besar">
+        </div>
+    </div>
+    
+    <script>
+        // Modal functionality
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        const closeBtn = document.querySelector('.close');
+        
+        document.querySelectorAll('.gallery-item img').forEach(img => {
+            img.addEventListener('click', function() {
+                modal.style.display = 'flex';
+                modalImg.src = this.src;
+            });
+        });
+        
+        closeBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+        
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+        
+        // Add some interactive elements
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.boxShadow = '0 15px 30px rgba(0, 0, 0, 0.4)';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.3)';
+            });
+        });
+    </script>
+</body>
+</html>
